@@ -1,0 +1,33 @@
+{
+  "name": "rooms-in-cuba",
+  "description": "Rent rooms in cuba",
+  "main": "app.js",
+  "authors": [
+    "Rolando Toledo <rtoledofernandez@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Rent",
+    "Cuba"
+  ],
+  "homepage": "http://roomsincuba.esy.es/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "~1.0.5",
+    "angular-material-icons": "~0.6.0",
+    "material-ui": "~0.14.4",
+    "material-styles": "*",
+    "google-material-design-font-icon": "~0.1.0",
+    "google-material-color": "~1.2.6",
+    "Material Design Theme Sass": "material-design-theme-sass#*",
+    "material-date-picker": "~1.2.4"
+  }
+}

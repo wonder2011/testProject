@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Property</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ property.id }}</td>
+            </tr>
+            <tr>
+                <th>Plants</th>
+                <td>{{ property.plants }}</td>
+            </tr>
+            <tr>
+                <th>Surface</th>
+                <td>{{ property.surface }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ property.price }}</td>
+            </tr>
+            <tr>
+                <th>Roomnumbers</th>
+                <td>{{ property.roomNumbers }}</td>
+            </tr>
+            <tr>
+                <th>Bathroomsnumber</th>
+                <td>{{ property.bathroomsNumber }}</td>
+            </tr>
+            <tr>
+                <th>Conditions</th>
+                <td>{{ property.conditions }}</td>
+            </tr>
+            <tr>
+                <th>Available</th>
+                <td>{% if property.available %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Availablefrom</th>
+                <td>{% if property.availableFrom %}{{ property.availableFrom|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Availableto</th>
+                <td>{% if property.availableTo %}{{ property.availableTo|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ property.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('property_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('property_edit', { 'id': property.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

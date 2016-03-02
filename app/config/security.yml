@@ -1,0 +1,77 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    encoders:
+      FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+      ROLE_MANAGER: ROLE_USER
+      ROLE_ADMIN: [ROLE_MANAGER]
+      ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory:
+            memory: ~
+        chain_provider:
+          chain:
+            providers: [admin, users, house_owner]
+        admin:
+          entity: { class: AppBundle\Entity\Admin, property: username }
+        users:
+          entity: { class: AppBundle\Entity\Users, property: username }
+        house_owner:
+          entity: { class: AppBundle\Entity\HouseOwner, property: username }
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        auth_token:
+            pattern: ^/oauth/v2/token
+            security: false
+
+        oauth_authorize:
+            pattern: ^/oauth/v2/auth
+            form_login:
+                provider: chain_provider
+                check_path: /oauth/v2/auth_login_check
+                login_path: /oauth/v2/auth_login
+            anonymous: true
+
+        api:
+            pattern: ^/api
+            fos_oauth: true
+            stateless: true
+            anonymous: false
+
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            form_login:
+                provider: chain_provider
+                csrf_token_generator: security.csrf.token_manager
+
+            guard:
+                authenticators:
+                    - app.token_authenticator
+
+            remember_me:
+                secret: '%secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
+
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            logout: true
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/manager, roles: ROLE_MANAGER }
+        - { path: ^/api, roles:  [ IS_AUTHENTICATED_FULLY ] }
